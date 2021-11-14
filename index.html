@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="ui container segment">
+    <h1 class="ui header">Daily Report Generator</h1>
+    <button class="ui inverted green button" id="btn-send-email">
+        <em data-emoji=":incoming_envelope:" class="small"></em>
+        <span class="ui medium text">Open email link</span>
+    </button>
+    <div class="ui divider"></div>
+    <div class="ui styled fluid accordion">
+        <div class="title">
+            <i class="dropdown icon"></i>
+            Meta info
+        </div>
+        <div class="content">
+            <div class="ui segment">
+                <div class="ui form">
+                    <div class="field" id="form-date">
+                        <label>Date</label>
+                        <div class="ui calendar">
+                            <div class="ui input left icon">
+                                <i class="calendar icon"></i>
+                                <input type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field" id="form-name">
+                        <label>Name</label>
+                        <input type="text">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="title">
+            <i class="dropdown icon"></i>
+            Addresses
+        </div>
+        <div class="content">
+            <div class="ui segment">
+                <div class="ui form">
+                    <div class="field">
+                        <label>To</label>
+                        <table class="ui celled definition table" id="form-table-email-to">
+                            <thead>
+                            <tr>
+                                <th class="one wide"></th>
+                                <th class="three wide">First name</th>
+                                <th class="three wide">Last name</th>
+                                <th>Email</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <button class="positive ui button" id="btn-add-email-to">Add</button>
+                    </div>
+                    <div class="ui divider"></div>
+                    <div class="field">
+                        <label>Cc</label>
+                        <table class="ui celled definition table" id="form-table-email-cc">
+                            <thead>
+                            <tr>
+                                <th class="one wide"></th>
+                                <th class="three wide">First name</th>
+                                <th class="three wide">Last name</th>
+                                <th>Email</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <button class="positive ui button" id="btn-add-email-cc">Add</button>
+                    </div>
+                    <div class="ui divider"></div>
+                    <div class="field">
+                        <label>Bcc</label>
+                        <table class="ui celled definition table" id="form-table-email-bcc">
+                            <thead>
+                            <tr>
+                                <th class="one wide"></th>
+                                <th class="three wide">First name</th>
+                                <th class="three wide">Last name</th>
+                                <th>Email</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <button class="positive ui button" id="btn-add-email-bcc">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui segment">
+        <div class="ui form">
+            <div class="field">
+                <label>Task list</label>
+                <table class="ui celled definition table" id="form-table-task">
+                    <thead>
+                    <tr>
+                        <th class="one wide"></th>
+                        <th class="three wide">Task name</th>
+                        <th class="two wide">Expected hours</th>
+                        <th class="two wide">Actual hours</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <button class="positive ui button" id="btn-add-task">Add</button>
+            </div>
+        </div>
+        <div class="ui divider"></div>
+        <div class="ui form">
+            <div class="field">
+                <label>Overview</label>
+                <p class="ui segment" role="textbox" contenteditable="true" id="form-overview"></p>
+            </div>
+            <div class="field">
+                <label>Future plans</label>
+                <p class="ui segment" role="textbox" contenteditable="true" id="form-future-plans"></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<!--jQuery-->
+<script src="node_modules/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="node_modules/jquery-ui-dist/jquery-ui.min.css">
+<script src="node_modules/jquery-ui-dist/jquery-ui.min.js"></script>
+<!--Fomantic UI-->
+<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+<script src="semantic/dist/semantic.min.js"></script>
+<!--customise-->
+<script src="index.js"></script>
+</html>

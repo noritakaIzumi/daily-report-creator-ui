@@ -1,0 +1,16 @@
+{
+  "name": "daily-report-creator-ui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fomantic-ui": "^2.8.8",
+    "jquery": "^3.5.1",
+    "jquery-ui-dist": "^1.12.1"
+  }
+}
