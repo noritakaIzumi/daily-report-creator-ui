@@ -6,10 +6,10 @@
         const year = date.getFullYear();
         const month = date.getMonth() + 1;
         const day = date.getDate();
-        return year + '/' + month + '/' + day;
+        return `${year}/${month}/${day}`;
     };
 
-    $('#form-date').calendar({
+    const calendarConfig = {
         on: 'click',
         type: 'date',
         formatter: {
@@ -17,16 +17,21 @@
                 return createDateStr(date);
             }
         },
-    });
+    };
 
-    $('#form-table-email-to').sortable({items: 'tbody tr', placeholder: "ui-state-highlight"});
-    $('#form-table-email-cc').sortable({items: 'tbody tr', placeholder: "ui-state-highlight"});
-    $('#form-table-email-bcc').sortable({items: 'tbody tr', placeholder: "ui-state-highlight"});
-    $('#form-table-task').sortable({items: 'tbody tr', placeholder: "ui-state-highlight"});
-
-    $('.ui.accordion').accordion();
 
     // Email to/cc/bcc
+    const initEmailHeader = () => {
+        const $tr = $('<tr>');
+        $tr.append(
+            $('<th>').addClass('one wide'),
+            $('<th>').addClass('three wide').text('First name'),
+            $('<th>').addClass('three wide').text('Last name'),
+            $('<th>').text('Email'),
+        );
+
+        $('.form-table-email thead').append($tr);
+    };
     const addEmailRow = (selector) => {
         const $tr = $('<tr>');
         $tr.append(
@@ -40,7 +45,7 @@
                 'data-column': 'first_name',
             }).append(
                 $('<div>').addClass('ui input').append(
-                    $('<input>').attr('type', 'text')
+                    $('<input>').attr('type', 'text').css('width', '0')
                 )
             ),
             $('<td>').attr({
@@ -48,7 +53,7 @@
                 'data-column': 'last_name',
             }).append(
                 $('<div>').addClass('ui input').append(
-                    $('<input>').attr('type', 'text')
+                    $('<input>').attr('type', 'text').css('width', '0')
                 )
             ),
             $('<td>').attr({
@@ -56,27 +61,42 @@
                 'data-column': 'email',
             }).append(
                 $('<div>').addClass('ui input').append(
-                    $('<input>').attr('type', 'text')
+                    $('<input>').attr('type', 'text').css('width', '0')
                 )
             ),
         );
         selector.append($tr);
     };
 
-    $('#btn-add-email-to').on('click', () => {
+    const $btnAddEmailTo = $('#btn-add-email-to');
+    $btnAddEmailTo.on('click', () => {
         addEmailRow($('#form-table-email-to'));
-    }).trigger('click');
+    });
 
-    $('#btn-add-email-cc').on('click', () => {
+    const $btnAddEmailCc = $('#btn-add-email-cc');
+    $btnAddEmailCc.on('click', () => {
         addEmailRow($('#form-table-email-cc'));
-    }).trigger('click');
+    });
 
-    $('#btn-add-email-bcc').on('click', () => {
+    const $btnAddEmailBcc = $('#btn-add-email-bcc');
+    $btnAddEmailBcc.on('click', () => {
         addEmailRow($('#form-table-email-bcc'));
-    }).trigger('click');
+    });
 
 
     // Task list
+    const initTaskHeader = () => {
+        const $tr = $('<tr>');
+        $tr.append(
+            $('<th>').addClass('one wide'),
+            $('<th>').addClass('two wide').text('Expected hours'),
+            $('<th>').addClass('two wide').text('Actual hours'),
+            $('<th>').addClass('two wide').text('Remained hours'),
+            $('<th>').text('Task name'),
+        );
+
+        $('#form-table-task thead').append($tr);
+    };
     const addTaskRow = () => {
         const $tr = $('<tr>');
         $tr.append(
@@ -86,19 +106,11 @@
                 }).text('-')
             ),
             $('<td>').attr({
-                'data-label': 'Task name',
-                'data-column': 'task_name',
-            }).append(
-                $('<div>').addClass('ui input').append(
-                    $('<input>').attr('type', 'text')
-                )
-            ),
-            $('<td>').attr({
                 'data-label': 'Expected hours',
                 'data-column': 'expected_hours',
             }).append(
                 $('<div>').addClass('ui input').append(
-                    $('<input>').attr('type', 'text')
+                    $('<input>').attr('type', 'text').css('width', '0')
                 )
             ),
             $('<td>').attr({
@@ -106,38 +118,47 @@
                 'data-column': 'actual_hours',
             }).append(
                 $('<div>').addClass('ui input').append(
-                    $('<input>').attr('type', 'text')
+                    $('<input>').attr('type', 'text').css('width', '0')
                 )
             ),
             $('<td>').attr({
-                'data-label': 'Status',
-                'data-column': 'status',
+                'data-label': 'Remained hours',
+                'data-column': 'remained_hours',
             }).append(
                 $('<div>').addClass('ui input').append(
-                    $('<input>').attr('type', 'text')
+                    $('<input>').attr('type', 'text').css('width', '0')
+                )
+            ),
+            $('<td>').attr({
+                'data-label': 'Task name',
+                'data-column': 'task_name',
+            }).append(
+                $('<div>').addClass('ui input').append(
+                    $('<input>').attr('type', 'text').css('width', '0')
                 )
             ),
         );
         $('#form-table-task tbody').append($tr);
     };
 
-    $('#btn-add-task').on('click', () => {
+    const $btnAddTask = $('#btn-add-task');
+    $btnAddTask.on('click', () => {
         addTaskRow();
-    }).trigger('click');
+    });
 
     // Create data json
-    $('#btn-send-email').on('click', () => {
+    const getFmtJson = () => {
         const params = {};
 
         params.date = $('#form-date input').val();
         params.name = $('#form-name input').val();
 
         const createEmailItem = (e) => {
-            return {
-                firstName: $(e).find('td[data-column="first_name"] input').val(),
-                lastName: $(e).find('td[data-column="last_name"] input').val(),
-                email: $(e).find('td[data-column="email"] input').val(),
-            };
+            const item = {};
+            $(e).find('td[data-column]').each((_, row) => {
+                item[row.dataset.column] = $(row).find('input').val();
+            });
+            return item;
         };
         const emailTo = [];
         $('#form-table-email-to tbody > tr').map((_, e) => {
@@ -157,12 +178,11 @@
 
         const tasks = [];
         $('#form-table-task tbody > tr').map((_, e) => {
-            tasks.push({
-                taskName: $(e).find('td[data-column="task_name"] input').val(),
-                expectedHours: $(e).find('td[data-column="expected_hours"] input').val(),
-                actualHours: $(e).find('td[data-column="actual_hours"] input').val(),
-                status: $(e).find('td[data-column="status"] input').val(),
+            const task = {};
+            $(e).find('td[data-column]').each((_, row) => {
+                task[row.dataset.column] = $(row).find('input').val();
             });
+            tasks.push(task);
         });
         params.tasks = tasks;
 
@@ -189,7 +209,7 @@
                 },
             },
             {
-                fmt: 'タスク 予定 実績 状況',
+                fmt: '予定 実績 残 タスク',
             },
             {
                 ctrl: 'each',
@@ -197,7 +217,7 @@
                     iterable: 'tasks',
                     as: 'task',
                     expr: {
-                        fmt: '${task.taskName} ${task.expectedHours} ${task.actualHours} ${task.status}',
+                        fmt: '${task.expected_hours} ${task.actual_hours} ${task.remained_hours} ${task.task_name}',
                     },
                 },
                 end: {
@@ -227,10 +247,33 @@
             },
         ];
 
-        const data = {
+        return {
             params: params,
             template: template,
         };
+    };
+    $('#btn-send-email').on('click', () => {
+        const data = getFmtJson();
         console.log(JSON.stringify(data));
     });
+
+    // main
+    (() => {
+        $('#form-date').calendar(calendarConfig);
+
+        $('#form-table-email-to').sortable({items: 'tbody tr', placeholder: "ui-state-highlight"});
+        $('#form-table-email-cc').sortable({items: 'tbody tr', placeholder: "ui-state-highlight"});
+        $('#form-table-email-bcc').sortable({items: 'tbody tr', placeholder: "ui-state-highlight"});
+        $('#form-table-task').sortable({items: 'tbody tr', placeholder: "ui-state-highlight"});
+
+        $('.ui.accordion').accordion();
+
+        initEmailHeader();
+        initTaskHeader();
+
+        $btnAddEmailTo.trigger('click');
+        $btnAddEmailCc.trigger('click');
+        $btnAddEmailBcc.trigger('click');
+        $btnAddTask.trigger('click');
+    })();
 })();
