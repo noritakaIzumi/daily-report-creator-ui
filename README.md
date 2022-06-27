@@ -1,10 +1,7 @@
 # daily-report-creator-ui
 
 ```shell
-npm install
-```
-
-```shell
+npm install --ignore-scripts fomantic-ui
 cd node_modules/fomantic-ui
 npx gulp install
 npx gulp build
